@@ -74,7 +74,7 @@ for (let i = 0; i < uniqueModels.length; i++) {
 
 
 // Task (c): Identify the model with the longest driving range for each manufacturer
-const bestByManufacturer = {}; 
+const bestByManufacturer = {};
 // structure: { "Mini": { model: "...", range: 594 }, ... }
 
 for (let i = 0; i < vehicles.length; i++) {
@@ -132,4 +132,73 @@ for (const type in sumByChargingType) {
 }
 
 
+// Task (e): Top 5 safest vehicles in 2025 (imperative)
 
+console.log("\nTop 5 safest vehicles (2025):");
+
+// Step 1: collect 2025 vehicles with valid safety rating
+let vehicles2025 = [];
+
+for (let i = 0; i < vehicles.length; i++) {
+  let v = vehicles[i];
+
+  if (v.Year === 2025 && v.Safety_Rating !== null) {
+    vehicles2025.push(v);
+  }
+}
+
+// Step 2: sort by safety rating (descending)
+for (let i = 0; i < vehicles2025.length - 1; i++) {
+  for (let j = i + 1; j < vehicles2025.length; j++) {
+    if (vehicles2025[j].Safety_Rating > vehicles2025[i].Safety_Rating) {
+      let temp = vehicles2025[i];
+      vehicles2025[i] = vehicles2025[j];
+      vehicles2025[j] = temp;
+    }
+  }
+}
+
+// Step 3: display top 5
+for (let i = 0; i < 5 && i < vehicles2025.length; i++) {
+  let v = vehicles2025[i];
+  console.log(
+    `${i + 1}. ${v.Manufacturer} : ${v.Model} (Safety: ${v.Safety_Rating})`
+  );
+
+  if (
+    vehicles2025[j].Safety_Rating > vehicles2025[i].Safety_Rating ||
+    (
+      vehicles2025[j].Safety_Rating === vehicles2025[i].Safety_Rating &&
+      vehicles2025[j].Range_km > vehicles2025[i].Range_km
+    )
+  ) {
+    let temp = vehicles2025[i];
+    vehicles2025[i] = vehicles2025[j];
+    vehicles2025[j] = temp;
+  }
+
+
+}
+
+
+// Task (f): Best-selling electronic vehicle in 2024 (imperative)
+
+console.log("\nBest-selling EV in 2024:");
+
+let bestSeller = null;
+
+for (let i = 0; i < vehicles.length; i++) {
+  let v = vehicles[i];
+
+  if (v.Units_Sold_2024 !== null) {
+    if (bestSeller === null || v.Units_Sold_2024 > bestSeller.Units_Sold_2024) {
+      bestSeller = v;
+    }
+  }
+}
+
+if (bestSeller !== null) {
+  console.log(
+    `${bestSeller.Manufacturer} : ${bestSeller.Model} (Units sold: ${bestSeller.Units_Sold_2024})`
+  );
+}
